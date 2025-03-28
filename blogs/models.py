@@ -39,3 +39,10 @@ class Blog(models.Model):
     
     def __str__(self):
         return self.title
+    
+class About(models.Model):
+    about = models.TextField(max_length=200)
+    github_link = models.CharField(max_length=100,unique=True)
+    linkedin_link = models.CharField(max_length=100,unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category,Blog
+from .models import Category,Blog,About
 
 # nichar class ta autometically slug generate krar jnno create kra hoise
 class BlogAdmin(admin.ModelAdmin):
@@ -12,3 +12,4 @@ class BlogAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Category)
 admin.site.register(Blog,BlogAdmin) # ekhne BlogAdmin class ta pass kre daoa hoise
+admin.site.register(About)

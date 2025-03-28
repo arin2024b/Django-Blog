@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Error Page</title>
+    <style>
+        body {
+            margin: 0 !important;
+            height: 100vh !important;
+            display: flex !important;
+            justify-content: center !important; /* Horizontal center */
+            align-items: center !important;    /* Vertical center */
+        }
+        span{
+            font-family: sans-serif !important;
+        }
+        button{
+            color: burlywood !important;
+            background-color: chocolate !important;
+            opacity: 0.7889;
+        }
+        button:hover{
+            color:brown !important;
+            background-color: black !important;
+            opacity: 1.0;
+        }
+    </style>
+</head>
+<body style="background-color: #432112 !important; color:bisque !important">
+    <div class="container" style="text-align: center;">
+        <span style="font-size: 3vw; background-color:black !important">Your Category Doesn't Exist..!..LoL</span><br>
+        <br>
+        <button id="btn">Click Here For Home Page</button>
+    </div>
+    <script>
+        let btn = document.getElementById('btn');
+        btn.addEventListener('click',()=>{
+            window.location.href='http://127.0.0.1:8000';
+        })
+    </script>
+</body>
+</html>
