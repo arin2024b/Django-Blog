@@ -90,8 +90,16 @@
     <!-- Header part -->
       <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
-          <div class="col-8 pt-1">
+          <div class="col-4 pt-1">
             <a class="blog-header-logo text-white" href="/">Django Blog</a>
+          </div>
+          <div class="col-4">
+            <form action="{% url 'search' %}" method="GET">
+              <div class="input-group">
+                <input class="form-control" type="text" name="keyword" value="{{kywrd}}" placeholder="Enter search term..." autocomplete="off" aria-label="Enter search term..." aria-describedby="button-search" />
+                <button type="submit" class="btn btn-warning" id="button-search" type="button">Go!</button>
+            </div>
+            </form>
           </div>
           <div class="col-4 d-flex justify-content-end align-items-center">
             <a class="btn btn-sm btn-warning" href="#">Login</a> &nbsp;
@@ -116,7 +124,7 @@
 
     <!-- Footer part -->
     <footer class="blog-footer">
-        <p>Django blog built with � by <a href="https://www.facebook.com/mohammadarin.ahmed" target="_blank">Arin Ahmed</a></p>
+        <p>Django blog built with � by <h5 style="color:sienna !important;"><b>Arin Ahmed</b></h5></p>
     </footer>
 </body>
 </html>

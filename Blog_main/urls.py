@@ -20,9 +20,13 @@ from . import views
 # nichar 2 ta import kra hoise media file ke urlpatterns er sthe concatinate krar jnno
 from django.conf.urls.static import static
 from django.conf import settings
+from blogs import views as AppViews # as dia kisu dile views er jaygay oita likha jabe
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home,name='home'),
-    path('category/',include('blogs.urls'))
+    path('category/',include('blogs.urls')),
+    path('<slug:slug>/',AppViews.blogs,name='blogs'),
+    # Search endpoint
+    path('blogs/search/',AppViews.search,name='search'),
 ] +static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

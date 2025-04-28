@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http import HttpResponse
 from .models import Blog,Category
+from django.db.models import Q # eta import kora hoiche or operator usage er jnno
 
 # Create your views here.
 def posts_by_category(rqst,category_id):
@@ -20,3 +21,19 @@ def posts_by_category(rqst,category_id):
         'category':category,
     }
     return render(rqst,'posts_by_category.html',context)
+
+def blogs(rqst,slug):
+    single_blog = get_object_or_404(Blog, slug=slug, status = 'Published')
+    context = {
+        'single_blog':single_blog,
+    }
+    return render(rqst,'blogs.html',context)
+
+def search(rqst):
+    keyword = rqst.GET.get('keyword')
+    blogs = Blog.objects.filter(Q(title__icontains = keyword) | Q(short_desc__icontains=keyword) | Q(blog_body__icontains=keyword), status='Published') # icontains er i means case sensitive.. ekhne upper case,lower case matter kore na
+    context = {
+        'blogs':blogs,
+        'kywrd':keyword,
+    }
+    return render(rqst,'search.html',context)

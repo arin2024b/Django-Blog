@@ -41,8 +41,17 @@ class Blog(models.Model):
         return self.title
     
 class About(models.Model):
-    about = models.TextField(max_length=200)
-    github_link = models.CharField(max_length=100,unique=True)
-    linkedin_link = models.CharField(max_length=100,unique=True)
+    about = models.TextField(max_length=300)
+    # github_link = models.URLField(max_length=100,unique=True)
+    # linkedin_link = models.URLField(max_length=100,unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now=True)
+    
+class SocialLink(models.Model):
+    platform = models.CharField(max_length=25)
+    link = models.URLField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.platform
