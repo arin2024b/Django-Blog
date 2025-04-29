@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<style>
+    body{
+        background-color:teal !important;
+        color:black !important;
+    }
+    button:hover{
+        color:teal !important;
+        background-color: brown !important;
+    }
+    input:hover{
+        color:brown !important;
+        background-color:darkgray !important;
+    }
+    #rgstr{
+        background-color: brown !important;
+        color: black !important;
+    }
+    #rgstr:hover{
+        color: bisque !important;
+        background-color: orange !important;
+    }
+    #login:hover{
+        color: blanchedalmond !important;
+        background-color: brown !important;
+    }
+</style>
+
+<h3 class="text-center" style="color:black !important;"><b><i>Complete Your Registration:</i></b></h3>
+<form action="{% url 'register' %}" method="POST" style="width: 500px; margin:auto">
+    {% csrf_token %} <!--post method use krle csrf_token use krte hbe-->
+
+    {{frm | crispy}} 
+    <br><br>
+    <button type="submit" class="btn btn-warning">Submit</button> <br><br>
+</form>
+
+{% endblock %}

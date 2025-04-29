@@ -11,9 +11,32 @@
 
     <!-- <link rel="stylesheet" href="{% static 'css/blog.css' %}"> -->
     <style>
+        #headLine{
+          color:black !important;
+          opacity: 1.2 !important;
+          text-shadow: seagreen !important;
+        }
+        #headLine:hover{
+          color: brown !important;
+        }
         a:hover{
             color: brown;
             opacity: 1.2;
+        }
+
+        #rgstr{
+          color: #322142 ;
+          background-color: bisque;
+        }
+
+        #rgstr:hover{
+          background-color:seagreen;
+          color: bisque;
+        }
+
+        #login:hover{
+          color:bisque !important;
+          background-color:brown !important;
         }
         .blog-header {
           border-bottom: 1px solid #e5e5e5;
@@ -82,16 +105,27 @@
         .blog-footer p:last-child {
           margin-bottom: 0;
         }
+        
+        #lggdin{
+          color:crimson !important;
+          background-color: black !important;
+          opacity: 0.8978 !important;
+        }
+
+        #lo_btn:hover{
+          color: brown !important;
+          background-color: black !important;
+        }
     </style>
 
 </head>
-<body style="background-color: #322142; color:blanchedalmond !important;">
+<body style="background-color: #322142; color:blanchedalmond;">
     <div class="container">
     <!-- Header part -->
       <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
           <div class="col-4 pt-1">
-            <a class="blog-header-logo text-white" href="/">Django Blog</a>
+            <a class="blog-header-logo text-white" id="headLine" href="/">Django Blog</a>
           </div>
           <div class="col-4">
             <form action="{% url 'search' %}" method="GET">
@@ -102,8 +136,16 @@
             </form>
           </div>
           <div class="col-4 d-flex justify-content-end align-items-center">
-            <a class="btn btn-sm btn-warning" href="#">Login</a> &nbsp;
-            <a class="btn btn-sm btn-outline-secondary" href="#">Register</a>
+            <!-- {% block navigation_links %} register.html a Register anchor tag ta na rakhar jnno ei block bavigation_links use kra hoise -->
+            {% if not user.is_authenticated %}
+            <a class="btn btn-sm btn-warning" id="login" href="{% url 'login' %}">Login</a> &nbsp;
+            <a class="btn btn-sm btn-outline-secondary" id="rgstr" href="{% url 'register' %}">Register</a>
+            {% else %}
+            <span id="lggdin">You're logged in as {{user}}</span>
+            &emsp;
+            <span><a href="{% url 'logout' %}" id="lo_btn" class="btn btn-danger">LogOut</a></span>
+            {% endif %}
+            <!-- {% endblock %} -->
           </div>
         </div>
       </header>

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<style>
+    body{
+        background-color: #240205 !important;
+        #headLine{
+            color: orange !important;
+            opacity: 0.7887 !important;
+        }
+        h3{
+            opacity: 0.8778 !important;
+        }
+        button:hover{
+            color: black !important;
+            background-color: darkorange !important;
+            opacity: 0.897 !important;
+        }
+        #login{
+            background-color: brown !important;
+            color: black !important;
+        }
+        #login:hover{
+            color: bisque !important;
+            background-color: orange !important;
+        }
+        input:hover{
+            color:black !important;
+            background-color:darkorange !important;
+            opacity: 0.898 !important;
+        }
+    }
+</style>
+
+<h3 class="text-center" style="color:darkorange !important;"><b><i>LogIn With Your Valid Informations:</i></b></h3> <br>
+<form action="{% url 'login' %}" method="POST" style="width: 500px; margin:auto">
+    {% csrf_token %} <!--post method use krle csrf_token use krte hbe-->
+
+    {{frm | crispy}} <br> <br>
+    <button type="submit" class="btn btn-warning">Login</button> <br><br>
+</form>
+{% endblock %}

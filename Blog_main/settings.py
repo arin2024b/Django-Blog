@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blogs',
+    'crispy_forms',
+    'crispy_bootstrap4',
     # 'assignments',
 ]
 
@@ -135,3 +137,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # menually media folder configuration:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# for showing good forms which direct fetch from admin pannel 
+CRISPY_TEMPLATE_PACK= 'bootstrap4'
