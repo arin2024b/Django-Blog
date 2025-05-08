@@ -27,7 +27,7 @@
           <small class="mb-1 text-muted" style="color:tomato !important;">{{post.created_at | timesince}} ago <-- {{post.author}}</small> <!-- created_at er por | timesince use krle kto hour,kto minutes age create kra hoise oita show krbe-->
           <p class="card-text m-auto">{{post.short_desc | truncatewords:25}}</p> <!--it will keep first 30 words.. truncatechars use krle otogula character nito-->
         </div>
-      </div>
+      </div> <br>
     </div>
     {% endif %}
     {% endfor %}
@@ -46,7 +46,7 @@
           <small class="mb-1 text-muted" style="color:tomato !important;">{{pst.created_at | timesince}} ago <-- {{pst.author}}</small> <!-- created_at er por | timesince use krle kto hour,kto minutes age create kra hoise oita show krbe-->
           <p class="card-text">{{pst.short_desc | truncatewords:25}}</p>
         </div>
-      </div>  
+      </div>  <br>
       {% endfor %}
       
 

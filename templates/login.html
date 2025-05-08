@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block navigation_links %}
+    <a class="btn btn-sm btn-warning" id="login" href="{% url 'login' %}">Try Again</a> &nbsp;
+    <a class="btn btn-sm btn-outline-secondary" id="rgstr" href="{% url 'register' %}">Register</a>
+{% endblock %}
+
 
 {% block content %}
 {% load crispy_forms_tags %}

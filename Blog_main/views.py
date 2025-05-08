@@ -43,7 +43,8 @@ def login(rqst):
             
             user = auth.authenticate(username=username,password=password)
             if user is not None: auth.login(rqst, user)
-            return redirect('home')
+            return redirect('dashboard')
+        else: print(form.errors)
     form = AuthenticationForm()
     context={
         'frm':form,

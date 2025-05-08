@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block navigation_links %}
+    <!-- <span><a href="{% url 'logout' %}" id="lo_btn" class="btn btn-danger"><i><b>LogOut</b></i></a></span> -->
+    <span class="text-warning bg-secondary"><i style="font-size: 1vw;">Logged In As: <b>{{user}}</b></i></span>
+{% endblock %}
+
+{% block content%}
+<style>
+    body{
+        background-color: bisque !important;
+        color: black !important;
+    }
+</style>
+
+<div class="row">
+    <!-- left sidebar -->
+    <!-- load the sidebar form sidebar.html -->
+    {% include 'dashboard/sidebar.html' %}
+
+    <!-- right side content -->
+     <div class="col-md-9">
+        <h2>All Categories:</h2>
+        <a href="{% url 'add_category' %}" class="btn btn-secondary text-warning float-right mb-2">Add New</a>
+        <table class="table table-hover table-dark ">
+            <thead>
+              <tr>
+                <th scope="col" class="bg-info">#</th>
+                <th scope="col" class="bg-secondary"><i class="text-warning">Category_Name</i></th>
+                <th scope="col" class="bg-secondary"><i class="text-warning">Created_At</i></th>
+                <th scope="col" class="bg-secondary"><i class="text-warning">Updated_At</i></th>
+                <th scope="col" class="bg-secondary"><i class="text-warning">Action</i></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for cat in categories %}  
+              <tr>
+                <th scope="row" class="bg-secondary">{{forloop.counter}}</th>
+                <td>{{cat.category_name}}</td>
+                <td>{{cat.created_at}}</td>
+                <td>{{cat.updated_at}}</td>
+                <td>
+                    <a href="{% url 'edit_category' cat.pk %}" class="fa fa-edit text-success"></a>
+                    &nbsp;
+                    <a href="{% url 'delete_category' cat.pk %}" class="fa fa-trash text-danger"></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+     </div>
+</div>
+
+{% endblock %}

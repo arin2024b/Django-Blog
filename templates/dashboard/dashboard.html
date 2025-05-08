@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block navigation_links %}
+    <!-- <span><a href="{% url 'logout' %}" id="lo_btn" class="btn btn-danger"><i><b>LogOut</b></i></a></span> -->
+     <span class="text-danger bg-light"><i style="font-size: 1vw;">Logged In As: <b>{{user}}</b></i></span>
+{% endblock %}
+
+{% block content %}
+<style>
+    body{
+        background-color: bisque !important;
+        color: black !important;
+    }
+</style>
+
+<div class="row">
+    <!-- left sidebar -->
+    <!-- load the sidebar here from sidebar.html-->
+    {% include 'dashboard/sidebar.html' %}
+
+    <!-- right side content -->
+     <div class="col-md-9">
+        <div class="row">
+            <div class="col">
+                <div class="card border-default mb-3">
+                    <div class="card-header text-center text-uppercase font-weigth-bold"><b>All Categories:</b></div>
+                    <div class="card-body text-light bg-secondary"><h5 class="card-title text-center"><b><i>{{cat_count}}</i></b></h5></div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card border-default mb-3">
+                    <div class="card-header text-center text-uppercase font-weigth-bold"><b>All Posts:</b></div>
+                    <div class="card-body text-light bg-secondary"><h5 class="card-title text-center"><i><b>{{blg_count}}</b></i></h5>
+                </div>
+                </div>
+            </div>
+        </div>
+     </div>
+</div>
+
+{% endblock %}
+
