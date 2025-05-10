@@ -30,7 +30,7 @@
                 <th scope="col" class="bg-dark"><i class="text-warning">Category</i></th>
                 <th scope="col" class="bg-dark"><i class="text-warning">Author</i></th>
                 <th scope="col" class="bg-dark"><i class="text-warning">Status</i></th>
-                <th scope="col" class="bg-dark"><i class="text-warning">Is_Featured</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Featured</i></th>
                 <th scope="col" class="bg-dark"><i class="text-warning">Action</i></th>
               </tr>
             </thead>
@@ -42,11 +42,11 @@
                 <td>{{post.category}}</td>
                 <td>{{post.author}}</td>
                 <td>{{post.status}}</td>
-                <td>{{post.is_featured}}</td>
+                <td>{% if post.is_featured %} <i class="fa fa-check text-info"></i> {% else %} <i class="fa fa-times text-danger"></i> {% endif%}</td>
                 <td>
-                    <a href="{% url 'edit_post' post.id %}" class="fa fa-edit text-success"></a>
+                    <a href="{% url 'edit_post' post.id %}"><i class="fa fa-edit text-success"></i></a>
                     &nbsp;
-                    <a href="{% url 'delete_post' post.pk %}" class="fa fa-trash text-danger"></a>
+                    <a href="{% url 'delete_post' post.pk %}"><i class="fa fa-trash text-danger"></i></a>
                 </td>
               </tr>
               {% endfor %}
