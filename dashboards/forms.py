@@ -9,4 +9,4 @@ class CategoryForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = '__all__'
+        fields = ('title','category','featured_image','short_desc','blog_body','status','is_featured')

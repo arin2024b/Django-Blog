@@ -3,6 +3,9 @@ from django.shortcuts import  render,redirect,get_object_or_404
 from blogs.models import Category,Blog
 from .forms import CategoryForm,PostForm
 
+# autometic slug generate krar jnno slugify import krte hbe
+from django.template.defaultfilters import slugify  # eta post er add/edit operation a slug er autometically generate er jnno
+
 # dashboard ta jate logged in user ei access krte pare tar jnno login_decorators er proyojn hbe
 from django.contrib.auth.decorators import login_required
 
@@ -66,10 +69,21 @@ def posts(rqst):
 
 def add_post(rqst):
     if rqst.method == 'POST':
-        form = PostForm(rqst.POST)
+        form = PostForm(rqst.POST,rqst.FILES) # file type data (image) naoar jnno request.FILES use krte hbe but age form a enctype="multipart/form-data" ta dite hbe
         if form.is_valid():
-            form.save()
+             # form theke slug and author er option baad daoa hoise,, models.py a slug er blank=True er jnno na likhleo first post add krle error dibena but 2nd post add krte gele error suru hbe and 
+            # author akebarei na dile error dibe tai author take  autometically manage krte hbe,jei user logged in thakbe sei jate by default oi post er author hoye jay
+            post = form.save(commit=False) # temporarily saving the form
+            post.author = rqst.user # ekhne by default user oi post er author hoy hbe
+            post.save() # finally the form will be saved..  and eta save krar karone nicha post.id ta paoa jabe nahole error through krto
+            
+            # autometic slug generate krar jnno (title theke):
+            title = form.cleaned_data['title']
+            post.slug = slugify(title) +'-'+str(post.id)
+            post.save()
+            
             return redirect('posts')
+        else: return redirect('404') #print(form.errors)
     form = PostForm()
     context={
         'form':form,
@@ -79,10 +93,18 @@ def add_post(rqst):
 def edit_post(rqst,pk):
     post = get_object_or_404(Blog,pk=pk)
     if rqst.method == 'POST':
-        form = PostForm(rqst.POST, instance=post)
+        form = PostForm(rqst.POST, rqst.FILES, instance=post)
         if form.is_valid():
-            form.save()
+            # form theke slug and author er option baad daoa hoise,, models.py a slug er blank=True er jnno na likhleo first post add krle error dibena but 2nd post add krte gele error suru hbe and 
+            # author akebarei na dile error dibe tai author take  autometically manage krte hbe,jei user logged in thakbe sei jate by default oi post er author hoye jay
+            post = form.save() # add a agei author generate kra hoy gese so ekhne temporay save kre alada vabe author implement krte hbe na
+    
+            # autometic slug generate krar jnno (title theke):
+            title = form.cleaned_data['title']
+            post.slug = slugify(title) +'-'+str(post.id)
+            post.save()
             return redirect('posts')
+        else: return redirect('404')
     form = PostForm(instance=post)
     context ={
         'form':form,

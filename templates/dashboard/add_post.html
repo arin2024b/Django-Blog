@@ -32,8 +32,8 @@
     <!-- right side content -->
      <div class="col-md-9">
         <h2>Add New Post:</h2>
-        
-        <form action="{% url 'add_post' %}" method="POST" style="width: 500px;" class="bg-secondary text-warning">
+        <!-- nichar form a entype use krte hbe nahole image field ta submit hbena and pura form tar submition a error dibe -->
+        <form action="{% url 'add_post' %}" method="POST" class="bg-secondary text-warning" enctype="multipart/form-data">
             {% csrf_token %}
             {{form | crispy}}
             <button type="submit" class="btn btn-success mb-2">Submit</button>

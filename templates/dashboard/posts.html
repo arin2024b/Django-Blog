@@ -26,10 +26,11 @@
             <thead>
               <tr>
                 <th scope="col" class="bg-info">#</th>
-                <th scope="col"class="bg-dark"><i class="text-warning">Post_Name</i></th>
-                <th scope="col" class="bg-dark"><i class="text-warning">Created_At</i></th>
-                <th scope="col" class="bg-dark"><i class="text-warning">Updated_At</i></th>
-                <th scope="col" class="bg-dark"><i class="text-warning">Is Featured</i></th>
+                <th scope="col"class="bg-dark"><i class="text-warning">Title</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Category</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Author</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Status</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Is_Featured</i></th>
                 <th scope="col" class="bg-dark"><i class="text-warning">Action</i></th>
               </tr>
             </thead>
@@ -38,8 +39,9 @@
               <tr>
                 <th scope="row" class="bg-dark"><i class="text-light">{{forloop.counter}}</i></th>
                 <td>{{post.title}}</td>
-                <td>{{post.created_at}}</td>
-                <td>{{post.updated_at}}</td>
+                <td>{{post.category}}</td>
+                <td>{{post.author}}</td>
+                <td>{{post.status}}</td>
                 <td>{{post.is_featured}}</td>
                 <td>
                     <a href="{% url 'edit_post' post.id %}" class="fa fa-edit text-success"></a>
