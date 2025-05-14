@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block navigation_links %}
+    <!-- <span><a href="{% url 'logout' %}" id="lo_btn" class="btn btn-danger"><i><b>LogOut</b></i></a></span> -->
+    <span class="text-warning bg-secondary"><i style="font-size: 1vw;">Logged In As: <b>{{user}}</b></i></span>
+{% endblock %}
+
+{% block content%}
+
+{% load crispy_forms_tags %}
+
+<style>
+    body{
+        background-color:slategray !important;
+        color: black !important;
+    }
+    #headLine{
+        color: black;
+    }
+    .btn:hover{
+        color:darkorange !important;
+        background-color:darkred !important;
+    }
+</style>
+
+<div class="row">
+    <!-- left sidebar -->
+    <!-- load the sidebar form sidebar.html -->
+    {% include 'dashboard/sidebar.html' %}
+
+    
+    <!-- right side content -->
+     <div class="col-md-9">
+        {% if perms.auth.view_user %} <!-- perms means permission.. just manager and superuser er kache view_user and user related access gula ache backend a..tai just manager and superuser login thakle show krbe -->
+        
+        <h2>All New User:</h2>
+
+        <form action="{% url 'add_user' %}" method="POST" style="width: 500px;" class="bg-secondary text-warning">
+            {% csrf_token %}
+            {{form | crispy}} <br>
+            <button type="submit" class="btn btn-success mb-2">Submit</button>
+        </form>
+        
+        {% else %}
+        <h4><b><i>You Do Not Have Permission To View This Page..LoL</i></b></h4> 
+        {% endif %}
+     </div>   
+</div>
+
+{% endblock %}

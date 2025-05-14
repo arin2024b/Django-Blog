@@ -1,13 +1,16 @@
 from django.shortcuts import  render,redirect,get_object_or_404
 
 from blogs.models import Category,Blog
-from .forms import CategoryForm,PostForm
+from .forms import CategoryForm,PostForm,UserForm,EditUserForm # EditUserForm tate password changing er option thakbena
 
 # autometic slug generate krar jnno slugify import krte hbe
 from django.template.defaultfilters import slugify  # eta post er add/edit operation a slug er autometically generate er jnno
 
 # dashboard ta jate logged in user ei access krte pare tar jnno login_decorators er proyojn hbe
 from django.contrib.auth.decorators import login_required
+
+# nica users der access kra jnno User import korar lagbe:
+from django.contrib.auth.models import User
 
 # login_required decorator use krle er vitor login_url dite hbe,, to dashboard er url ta jdi kno logged in chara 
 #  kno user direct url likhe search kore tahole take direct login page a nia jabe
@@ -117,3 +120,45 @@ def delete_post(rqst,pk):
     post = get_object_or_404(Blog,pk=pk)
     post.delete()
     return redirect('posts')
+
+
+
+def users(rqst):
+    users = User.objects.all()
+    cntxt = {
+        'users':users,
+    }
+    return render(rqst,'dashboard/users.html',cntxt)
+
+def add_user(rqst):
+    if rqst.method == 'POST':
+        form = UserForm(rqst.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('users')
+    form=UserForm()
+    cntxt = {
+        'form':form,
+    }
+    return render(rqst,'dashboard/add_user.html',cntxt)
+
+def edit_user(rqst,pk):
+    user = get_object_or_404(User,pk=pk)
+    if rqst.method == 'POST':
+        form = EditUserForm(rqst.POST,rqst.FILES,instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('users')
+    form = EditUserForm(instance=user)
+    cntxt={
+        'form':form,
+        'user':user,
+    }
+    return render(rqst,'dashboard/edit_user.html',cntxt)
+
+def delete_user(rqst,pk):
+    user = get_object_or_404(User,pk=pk)
+    user.delete()
+    return redirect('users')
+
+

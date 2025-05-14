@@ -22,7 +22,7 @@
      <div class="col-md-9">
         <h2>All Posts:</h2>
         <a href="{% url 'add_post' %}" class="btn btn-secondary text-warning float-right mb-2">Add New</a>
-        <table class="table table-hover table-secondary text-light">
+        <table class="table table-hover table-success text-light">
             <thead>
               <tr>
                 <th scope="col" class="bg-info">#</th>
@@ -37,7 +37,7 @@
             <tbody>
               {% for post in posts %}  
               <tr>
-                <th scope="row" class="bg-dark"><i class="text-light">{{forloop.counter}}</i></th>
+                <th scope="row" class="bg-dark"><i class="text-success">{{forloop.counter}}</i></th>
                 <td>{{post.title}}</td>
                 <td>{{post.category}}</td>
                 <td>{{post.author}}</td>

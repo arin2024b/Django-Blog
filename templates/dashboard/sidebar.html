@@ -1,6 +1,10 @@
 <div class="col-md-3">
     <div class="nav flex-column nav-pills bg-secondary" aria-orientation="vertical">
         <a href="{% url 'dashboard' %}" class="nav-link text-light  btn btn-warning {% if '/dashboard/' == request.path %}bg-danger{%endif%}"><b>Dashboard</b></a>
+
+        {% if perms.auth.view_user %} <!-- perms means permission.. just manager and superuser er kache view_user and user related access gula ache backend a..tai just manager and superuser login thakle show krbe -->
+        <a href="{% url 'users' %}" class="nav-link text-light  btn btn-warning {% if '/users/' in request.path %}bg-info{%endif%}"><b>Users</b></a>
+        {% endif %} <!-- upore view_user er jaygay user relate jkno kisu daoa jaito jeta backend a ache.. like auth.delete_user etc -->
         <a href="{% url 'categories' %}" class="nav-link text-light btn btn-warning {% if '/dashboard/categories/' == request.path %}bg-danger{%endif%}"><b>Categories</b></a>
         <a href="{% url 'posts' %}" class="nav-link text-light btn btn-warning {% if '/dashboard/posts/' == request.path %}bg-danger{%endif%}"><b>Posts</b></a>
         <a href="{% url 'logout' %}" class="nav-link text-danger btn btn-dark"><i><b>LogOut</b></i></a>

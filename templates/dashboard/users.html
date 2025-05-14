@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block navigation_links %}
+    <!-- <span><a href="{% url 'logout' %}" id="lo_btn" class="btn btn-danger"><i><b>LogOut</b></i></a></span> -->
+    <span class="text-warning bg-secondary"><i style="font-size: 1vw;">Logged In As: <b>{{user}}</b></i></span>
+{% endblock %}
+
+{% block content%}
+<style>
+    body{
+        background-color:slategray !important;
+        color: black !important;
+    }
+    #headLine{
+        color: black;
+    }
+</style>
+
+<div class="row">
+    <!-- left sidebar -->
+    <!-- load the sidebar form sidebar.html -->
+    {% include 'dashboard/sidebar.html' %}
+
+    <!-- right side content -->
+    <div class="col-md-9">
+        {% if perms.auth.view_user %} <!-- perms means permission.. just manager and superuser er kache view_user and user related access gula ache backend a..tai just manager and superuser login thakle show krbe -->
+        
+        <h2>All Users:</h2>
+        <a href="{% url 'add_user' %}" class="btn btn-warning text-dark float-right mb-2">Add New User</a>
+        <table class="table table-hover table-warning text-dark">
+            <thead>
+              <tr>
+                <th scope="col" class="bg-danger">#</th>
+                <th scope="col"class="bg-dark"><i class="text-warning">Full Name</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Username</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Email</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Active</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Staff</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Superuser</i></th>
+                <th scope="col" class="bg-dark"><i class="text-warning">Action</i></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}  
+              <tr>
+                <th scope="row" class="bg-dark"><i class="text-danger">{{forloop.counter}}</i></th>
+                <td>{{user.first_name}} {{user.last_name}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td>{% if user.is_active %} <i class="fa fa-check text-info"></i> {% else %} <i class="fa fa-times text-danger"></i> {% endif%}</td>
+                <td>{% if user.is_staff %} <i class="fa fa-check text-info"></i> {% else %} <i class="fa fa-times text-danger"></i> {% endif%}</td>
+                <td>{% if user.is_superuser %} <i class="fa fa-check text-info"></i> {% else %} <i class="fa fa-times text-danger"></i> {% endif%}</td>
+                <td>
+                    <a href="{% url 'edit_user' user.id %}"><i class="fa fa-edit text-success"></i></a>
+                    &nbsp;
+                    <a href="{% url 'delete_user' user.id %}"><i class="fa fa-trash text-danger"></i></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+        <h4><b><i>You Do Not Have Permission To View This Page..LoL</i></b></h4> 
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

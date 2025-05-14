@@ -55,3 +55,7 @@ class SocialLink(models.Model):
     
     def __str__(self):
         return self.platform
+    
+    
+# eta dashboards app er forms.py te UserForm class a usage er jnno ekta condtion    
+# User.add_to_class('spUser', property(lambda self: self.is_superuser and self.username == 'arin2025n'))
