@@ -31,6 +31,8 @@
 
     <!-- right side content -->
      <div class="col-md-9">
+        {% if perms.auth.view_user %}
+
         <h2>Edit User:</h2>
 
         <form action="{% url 'edit_user' user.id %}" method="POST" style="width: 500px;" class="bg-secondary text-warning" enctype="multipart/form-data">
@@ -38,6 +40,10 @@
             {{form | crispy}} <br>
             <button type="submit" class="btn btn-success mb-2">Submit</button>
         </form>
+
+        {% else %}
+        <h4 class="text-danger"><b><i>You Do Not Have Permission To View This Page..LoL</i></b></h4> 
+        {% endif %}
      </div>    
 </div>
 
