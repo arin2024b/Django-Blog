@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from django.http import HttpResponse
-from .models import Blog,Category
+from django.http import HttpResponseRedirect
+from .models import Blog,Category,Comment
 from django.db.models import Q # eta import kora hoiche or operator usage er jnno
 
 # Create your views here.
@@ -24,8 +24,23 @@ def posts_by_category(rqst,category_id):
 
 def blogs(rqst,slug):
     single_blog = get_object_or_404(Blog, slug=slug, status = 'Published')
+    
+    # get Comments
+    if rqst.method == 'POST':
+        comment = Comment()
+        comment.user = rqst.user
+        comment.blog = single_blog
+        comment.comment = rqst.POST['comment'] # commnet.comment er 2nd comment ta models.py er Comment class er comment..[] er vitorer comment ta blogs.html er textfiler er name attribute ta
+        comment.save()
+        return HttpResponseRedirect(rqst.path_info) # oi same page reload krar jnno eta use hoy
+    
+    comments = Comment.objects.filter(blog = single_blog)
+    comment_count = comments.count() 
+    
     context = {
         'single_blog':single_blog,
+        'cmnts':comments,
+        'cmnt_count':comment_count,
     }
     return render(rqst,'blogs.html',context)
 

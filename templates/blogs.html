@@ -23,6 +23,41 @@
                 <section class="mb-5">
                     <p class="fs-5 mb-4">{{single_blog.short_desc}}</p>
                     <p class="fs-5 mb-4">{{single_blog.blog_body}}</p>
+
+                    <!-- Comments -->
+                    <div class="card bg-secondary text-white">
+                        <span class="card-body">
+                            <span class="card-title text-center"><h4 style="background-color:rgba(1, 16, 17, 0.87) !important; color:bisque"><b><i>Comments (<b style="color:darkred !important;">{{cmnt_count}}</b>) :</i></b></h4></span>
+                            <div class="card-text mb-0">
+                                {% if cmnts %}
+                                    {% for cmnt in cmnts %}
+                                        <i style="font-size: 16px !important;color:paleturquoise !important"><b> ~ {{cmnt}}</b></i>
+                                        <br>
+                                        <span>
+                                            <small style="color: brown !important;font-size:1vw !important"><b>By {{cmnt.user}}</b></small> 
+                                            <small style="color:bisque !important;font-size:1vw !important"><i> / {{cmnt.created_at | timesince }} ago</i></small>
+                                        </span><br><br>
+                                    {% endfor %}
+                                {% else %}
+                                <p style="font-size: 2vw !important;"><i>No Comments</i></p>
+                                {% endif %}
+                                <br> <br> <br>
+                                {% if user.is_authenticated %}
+                                <div class="form-group">
+                                    <form action="" method="POST"> <!--ekhne action er drkr porbe na cause views.py blog er blog funtion a slug use kra hoise,,oita diai kaj hbe-->
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <textarea class="bg-white text-info form-control" name="comment"  placeholder="Write Your Comment..."></textarea>
+                                            <input type="submit" class="btn btn-info mt-2" value="Submit">
+                                        </div>
+                                    </form>
+                                </div>
+                                {% else %}
+                                <i style="color:coral; font-size:2vw !important"><b style="background-color: beige !;">Please <span><a href="{% url 'login' %}">LogIn</a></span> to write a comment..!</b></i>
+                                {% endif %}
+                            </div>
+                        </span>
+                    </div>
                     </section>
             </article>
         </div>

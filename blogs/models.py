@@ -57,5 +57,13 @@ class SocialLink(models.Model):
         return self.platform
     
     
-# eta dashboards app er forms.py te UserForm class a usage er jnno ekta condtion    
-# User.add_to_class('spUser', property(lambda self: self.is_superuser and self.username == 'arin2025n'))
+class Comment(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE) # on_delete use kra hoise jate user delete hoy gele comment o delete hoye jay
+    blog = models.ForeignKey(Blog,on_delete=models.CASCADE) # blog delete hoile comment o delete hoy jbe
+    comment = models.TextField(max_length=250)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.comment
+    
