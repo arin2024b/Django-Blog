@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ihrt%w16vwij76hesp)@ib=g7gr(vznsil68_z=%2tmfdpqde8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False # etake false kra hoise,,by default true chilo
+DEBUG = True # etake false kra hoise,,by default true chilo
 
 ALLOWED_HOSTS = ['*'] # eta by default khali chilo ekhne * use kra hoise 
 
