@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -49,6 +50,14 @@
       </div>  <br>
       {% endfor %}
       
+      <div class="p-2">
+          <h4 class="font-italic" style="color: brown !important;">For Entertainment:--</h4>
+          <div class="p-3 mb-3 bg-secondary rounded">
+            <video style="max-width: 100%; height: auto;">
+              <source src="{% static 'videos/Thagyan  Rendition  Farasat Anees  World Music Day.mp4' %}" type="application/x-mpegURL">
+            </video>
+          </div>
+        </div>
 
       </div>
       
@@ -61,7 +70,6 @@
           <p class="mb-0 text-dark">Arin Ahmed,<em>a dedicated Computer Science and Technology (CST) student</em> {{i.about}}</p>
         </div>
         {% endfor %}
-
 
         {% if social_links %}
         <div class="p-3">
