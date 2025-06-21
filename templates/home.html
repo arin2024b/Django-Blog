@@ -1,7 +1,9 @@
 {% extends "base.html" %}
-{% load static %}
+
 
 {% block content %}
+
+{% load static %}
 
 {% for post in featured_posts %}
 {% if forloop.first %} <!--if condition lagano hoise jate repeate na hoy home.html a -->
@@ -53,8 +55,9 @@
       <div class="p-2">
           <h4 class="font-italic" style="color: brown !important;">For Entertainment:--</h4>
           <div class="p-3 mb-3 bg-secondary rounded">
-            <video style="max-width: 100%; height: auto;">
-              <source src="{% static 'videos/Thagyan  Rendition  Farasat Anees  World Music Day.mp4' %}" type="application/x-mpegURL">
+            <video width="100%" height="auto" autoplay muted loop controls style="margin-bottom: 20px;">
+              <source src="{% static 'videos/Video.mp4' %}" type="video/mp4">
+              Your Browser Doesn't Support The Video Tag
             </video>
           </div>
         </div>
