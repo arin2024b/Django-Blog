@@ -20,3 +20,7 @@ def image1(rqst):
 def image2(rqst):
     WebsiteName = Image.objects.get(title="WebsiteName")
     return {'image2':WebsiteName}
+
+def image3(rqst):
+    BackgroundImage = Image.objects.get(title="BackgroundImage")
+    return {'image3':BackgroundImage}

@@ -7,8 +7,10 @@
         {% endif %} <!-- upore view_user er jaygay user relate jkno kisu daoa jaito jeta backend a ache.. like auth.delete_user etc -->
         <a href="{% url 'categories' %}" class="nav-link text-light btn btn-warning {% if '/dashboard/categories/' == request.path %}bg-danger{%endif%}"><b>Categories</b></a>
         <a href="{% url 'posts' %}" class="nav-link text-light btn btn-warning {% if '/dashboard/posts/' == request.path %}bg-danger{%endif%}"><b>Posts</b></a>
+        {% if perms.auth.view_user %} 
         <a href="{% url 'upload_video' %}" class="nav-link text-light btn btn-warning {% if '/dashboard/upload_video/' == request.path %}bg-danger{%endif%}"><b>Videos</b></a>
         <a href="{% url 'upload_image' %}" class="nav-link text-light btn btn-warning {% if '/dashboard/upload_image/' == request.path %}bg-danger{%endif%}"><b>Images</b></a>
+        {% endif %}
         <a href="{% url 'logout' %}" class="nav-link text-danger btn btn-dark"><i><b>LogOut</b></i></a>
         <!-- uporer a tag a if condition tar jnno ei div ta current jei page(categories.html ba posts.html) a thakbe
          oi page oi a tag ta red hoy thakbe-->

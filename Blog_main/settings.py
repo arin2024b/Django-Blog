@@ -72,6 +72,7 @@ TEMPLATES = [
                 'blogs.context_processors.get_social_links',
                 'blogs.context_processors.image1',
                 'blogs.context_processors.image2',
+                'blogs.context_processors.image3',
             ],
         },
     },

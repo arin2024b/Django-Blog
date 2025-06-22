@@ -18,16 +18,13 @@ def home(request):
     posts = Blog.objects.filter(is_featured = False, status = 'Published')
     about = About.objects.all()
     videos = Video.objects.all().order_by('-uploaded_at')
-    image1 = Image.objects.get(title="Logo")  # Exact title match
-    image2 = Image.objects.get(title="WebsiteName")
+
     context = {
         # 'categories': categories, # jehetu context_processors.py te already daoa hoise tai ar alada vabe daoar drkr nau
         'featured_posts': featured_posts,
         'posts':posts,
         'about':about,
         'videos':videos,
-        'image1':image1,
-        'image2':image2,
     }
     return render(request,'home.html',context)
 
