@@ -1,9 +1,15 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
-from blogs.models import Category,Blog,About
+from blogs.models import Category,Blog,About,Video,Image
 from .forms import RegistrationForm
 from django.contrib.auth.forms import AuthenticationForm # login html er authentication er jnno 
 from django.contrib import auth # user data gulake entered dara er sathe match kranor jnno import kora hoise
+from Blog_main.forms import VideoForm,ImageForm
+
+# def base(rqst):
+#     image1 = Image.objects.get(title="Logo")  # Exact title match
+#     image2 = Image.objects.get(title="WebsiteName")
+#     return render(rqst, 'base.html', {'image1': image1, 'image2': image2})
 
 def home(request):
     # return HttpResponse('Hello Mc')
@@ -11,11 +17,17 @@ def home(request):
     featured_posts = Blog.objects.filter(is_featured = True,status = 'Published').order_by("updated_at")
     posts = Blog.objects.filter(is_featured = False, status = 'Published')
     about = About.objects.all()
+    videos = Video.objects.all().order_by('-uploaded_at')
+    image1 = Image.objects.get(title="Logo")  # Exact title match
+    image2 = Image.objects.get(title="WebsiteName")
     context = {
         # 'categories': categories, # jehetu context_processors.py te already daoa hoise tai ar alada vabe daoar drkr nau
         'featured_posts': featured_posts,
         'posts':posts,
         'about':about,
+        'videos':videos,
+        'image1':image1,
+        'image2':image2,
     }
     return render(request,'home.html',context)
 
@@ -54,3 +66,27 @@ def login(rqst):
 def logout(rqst):
     auth.logout(rqst)
     return redirect('home')
+
+def upload_video(request):
+    videos = Video.objects.all().order_by('-uploaded_at')
+    
+    if request.method == 'POST':
+        form = VideoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('upload_video')
+    else:
+        form = VideoForm()
+    return render(request, 'dashboard/upload_video.html', {'form': form,'videos':videos,})
+
+def upload_image(request):
+    images = Image.objects.all().order_by('-uploaded_at')
+    
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('upload_image')
+    else:
+        form = ImageForm()
+    return render(request, 'dashboard/upload_image.html', {'form': form,'images':images,})

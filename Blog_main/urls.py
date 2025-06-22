@@ -41,4 +41,10 @@ urlpatterns = [
     # Dashboards
     path('dashboard/',include('dashboards.urls')),
     
+    # Video
+    path('uploadV/', views.upload_video, name='upload_video'),
+    
+    # Image
+    path('uploadI/', views.upload_image, name='upload_image'),
+    
 ] +static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

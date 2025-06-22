@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="row">
+    {% include 'dashboard/sidebar.html' %}
+
+    <div class="container p-2 m-auto" style="align-items: center;">
+        <h2 style="color: blanchedalmond;">Upload Your Video</h2>
+        <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-warning" type="submit">Upload Video</button>
+    </form> <br>
+    <div class="p-2 bg-secondary rounded">
+            <table style="border: 0;" cellspacing="10" cellpadding="0">
+              <tr>
+                    {% for i in videos %}
+                    <td class="p-1">
+                        <header style="color:maroon !important;"><b>{{i.title}}</b><p class="text-muted">Uploaded: {{ i.uploaded_at|date:"M d, Y" }}</p></header>
+                        <video width="60%" height="auto" muted loop controls style="margin-bottom: 20px;" >
+                            <source src="{{i.video_file.url}}" type="video/mp4"> <!--jehetu src tai sese .url dite hbe-->
+                            Your Browser Doesn't Support The Video Tag
+                        </video>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
+                    {% endfor %}
+                </tr>
+            </table>
+        
+    </div>
+</div>
+
+{% endblock %}

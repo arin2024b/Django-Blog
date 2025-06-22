@@ -70,6 +70,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'blogs.context_processors.get_categories',
                 'blogs.context_processors.get_social_links',
+                'blogs.context_processors.image1',
+                'blogs.context_processors.image2',
             ],
         },
     },
@@ -138,7 +140,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # menually media folder configuration:
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # for showing good forms which direct fetch from admin pannel 
 CRISPY_TEMPLATE_PACK= 'bootstrap4'

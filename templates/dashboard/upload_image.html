@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="row">
+    {% include 'dashboard/sidebar.html' %}
+
+    <div class="container p-2 m-auto" style="align-items: center;">
+        <h2 style="color: blanchedalmond;">Upload Your Images</h2>
+        <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-warning" type="submit">Upload Image</button>
+    </form> <br>
+    <div class="p-2 bg-secondary rounded card">
+            <table style="border: 0;" cellspacing="10" cellpadding="0">
+              <tr>
+                    {% for i in images %}
+                    <td class="p-1">
+                        <header style="color:maroon !important;"><b>{{i.title}}</b><p class="text-muted">Uploaded: {{ i.uploaded_at|date:"M d, Y" }}</p></header>
+                        <img src="{{i.image_file.url}}" class="card-img-top" alt="Image not found">
+                    </td>
+                    {% endfor %}
+                </tr>
+            </table>
+        
+    </div>
+</div>
+
+{% endblock %}

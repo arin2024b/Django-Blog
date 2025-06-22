@@ -67,3 +67,19 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment
     
+
+class Video(models.Model):
+    title = models.CharField(max_length=20)
+    video_file = models.FileField(upload_to='videos/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.title
+    
+class Image(models.Model):
+    title = models.CharField(max_length=50)
+    image_file = models.ImageField(upload_to='images/')  # Saves to `MEDIA_ROOT/images/`
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.title
