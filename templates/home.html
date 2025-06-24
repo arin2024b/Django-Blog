@@ -70,7 +70,7 @@
               <td class="p-2">
                 <div class="video-container bg-dark  border border-info border-3 rounded p-2 m-auto">
                   <header style="color:bisque !important;"><b>{{i.title}}</b> <p class='text-info'>Uploaded: {{i.uploaded_at|date:'M d, Y'}}</p></header>
-                  <video class='bg-danger' width="100%" height="auto" controls style="margin-bottom: 30px;">
+                  <video class='bg-secondary rounded' width="100%" height="auto" controls style="margin-bottom: 30px;">
                     <source src="{{i.video_file.url}}" type="video/mp4"> <!--jehetu src tai sese .url dite hbe-->
                     Your Browser Doesn't Support The Video Tag
                   </video>
@@ -81,13 +81,13 @@
                       ❤️ <span class="love-count text-black">{{ i.love_count }}</span>
                     </button>
                     <button class="react-btn btn btn-danger  dislike-btn" data-reaction="dislike">
-                      👎 <span class="dislike-count text-black">{{ i.dislike_count }}</span>
+                      🥴 <span class="dislike-count text-black">{{ i.dislike_count }}</span>
                     </button>
                     {% else %}
                     <span class="reaction-display">
-                      ❤️ {{ i.love_count }} 👎 {{ i.dislike_count }}
-                    </span>
-                    <p><a href="{% url 'login' %}" id="rct"><b>Login to react</b></a></p>
+                      ❤️ {{ i.love_count }} 🥴 {{ i.dislike_count }}
+                    </span> <br>
+                    <p><a href="{% url 'login' %}" class='btn btn-info text-black border border-warning border-2 p-1'><b>Login to react</b></a></p>
                     {% endif %}
                   </div>
                 </div>
@@ -124,16 +124,6 @@
 
 </main>
 
-<style>
-  #rct{
-    color:palegreen !important;
-    opacity: 0.8989;
-  }
-  #rct:hover{
-    color:brown !important;
-    opacity:1.0;
-  }
-</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -175,5 +165,4 @@
     });
 });
 </script>
-
 {% endblock %}
