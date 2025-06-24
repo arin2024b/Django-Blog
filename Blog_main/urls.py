@@ -50,4 +50,8 @@ urlpatterns = [
     # For Reacts
     path('react/<int:video_id>/', views.toggle_reaction, name='toggle_reaction'),
     
+    # For Comments
+    path('comment/<int:video_id>/', views.add_comment, name='add_comment'),
+    path('comments/<int:video_id>/', views.get_comments, name='get_comments'),
+    
 ] +static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

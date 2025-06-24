@@ -1,6 +1,6 @@
 from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render,redirect
-from blogs.models import Category,Blog,About,Video,Image,React
+from blogs.models import Category,Blog,About,Video,Image,React,VideoComment
 from .forms import RegistrationForm
 from django.contrib.auth.forms import AuthenticationForm # login html er authentication er jnno 
 from django.contrib import auth # user data gulake entered dara er sathe match kranor jnno import kora hoise
@@ -62,6 +62,47 @@ def toggle_reaction(request, video_id):
         })
     
     return JsonResponse({'error': 'Invalid request'})
+
+@login_required
+def add_comment(request, video_id):
+    if request.method == 'POST':
+        video = Video.objects.get(id=video_id)
+        comment_text = request.POST.get('comment')
+        
+        if comment_text.strip():
+            comment = VideoComment.objects.create(
+                user=request.user,
+                video=video,
+                comment=comment_text.strip()
+            )
+            
+            return JsonResponse({
+                'success': True,
+                'comment': {
+                    'id': comment.id,
+                    'username': comment.user.username,
+                    'comment': comment.comment,
+                    'created_at': comment.created_at.strftime('%b %d, %Y at %I:%M %p')
+                }
+            })
+        
+    return JsonResponse({'error': 'Invalid request'})
+
+def get_comments(request, video_id):
+    video = Video.objects.get(id=video_id)
+    comments = VideoComment.objects.filter(video=video).order_by('-created_at')
+    
+    comments_data = [{
+        'id': comment.id,
+        'username': comment.user.username,
+        'comment': comment.comment,
+        'created_at': comment.created_at.strftime('%b %d, %Y at %I:%M %p')
+    } for comment in comments]
+    
+    return JsonResponse({
+        'comments': comments_data,
+        'count': comments.count()
+    })
 
 def register(rqst):
     if rqst.method == 'POST':
