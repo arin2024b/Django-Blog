@@ -1,4 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .models import Blog,Category,Comment
 from django.db.models import Q # eta import kora hoiche or operator usage er jnno
@@ -52,3 +53,4 @@ def search(rqst):
         'kywrd':keyword,
     }
     return render(rqst,'search.html',context)
+

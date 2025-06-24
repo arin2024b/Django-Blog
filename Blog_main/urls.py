@@ -47,4 +47,7 @@ urlpatterns = [
     # Image
     path('uploadI/', views.upload_image, name='upload_image'),
     
+    # For Reacts
+    path('react/<int:video_id>/', views.toggle_reaction, name='toggle_reaction'),
+    
 ] +static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

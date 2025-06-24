@@ -7,94 +7,173 @@
 
 {% for post in featured_posts %}
 {% if forloop.first %} <!--if condition lagano hoise jate repeate na hoy home.html a -->
-<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark" style="background-image: url({{post.featured_image.url}});background-blend-mode: overlay;background-size:cover;"> <!--image fetch krar jnno last a .url dite hbe-->
-    <div class="col-md-8 px-0">
-      <h1 class="display-4 font-italic">{{post.title}}</h1>
-      <p class="lead my-3">{{post.short_desc | truncatewords:15}}</p>
-      <p class="lead mb-0"><a href="{% url 'blogs' post.slug %}" class="text-white font-weight-bold">Continue reading...</a></p>
-    </div>
+<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark"
+  style="background-image: url({{post.featured_image.url}});background-blend-mode: overlay;background-size:cover;">
+  <!--image fetch krar jnno last a .url dite hbe-->
+  <div class="col-md-8 px-0">
+    <h1 class="display-4 font-italic">{{post.title}}</h1>
+    <p class="lead my-3">{{post.short_desc | truncatewords:15}}</p>
+    <p class="lead mb-0"><a href="{% url 'blogs' post.slug %}" class="text-white font-weight-bold">Continue
+        reading...</a></p>
   </div>
+</div>
 {% endif %}
 {% endfor %}
 
 <br>
 
-  <h1 class="text-uppercase text-info" style="letter-spacing: 2px;">Featured Post:</h1>
-  <div class="row mb-2">
-    {% for post in featured_posts %}
-    {% if not forloop.first %}
-    <div class="col-md-6">
-      <div class="card border-0" >
-        <div class="card-body">
-          <h3><a href="{% url 'blogs' post.slug %}" class="text-success">{{post.title}}</a></h3>
-          <small class="mb-1 text-muted" style="color:tomato !important;">{{post.created_at | timesince}} ago <-- {{post.author}}</small> <!-- created_at er por | timesince use krle kto hour,kto minutes age create kra hoise oita show krbe-->
-          <p class="card-text m-auto">{{post.short_desc | truncatewords:25}}</p> <!--it will keep first 30 words.. truncatechars use krle otogula character nito-->
-        </div>
-      </div> <br>
-    </div>
-    {% endif %}
-    {% endfor %}
+<h1 class="text-uppercase text-info" style="letter-spacing: 2px;">Featured Post:</h1>
+<div class="row mb-2">
+  {% for post in featured_posts %}
+  {% if not forloop.first %}
+  <div class="col-md-6">
+    <div class="card border-0">
+      <div class="card-body">
+        <h3><a href="{% url 'blogs' post.slug %}" class="text-success">{{post.title}}</a></h3>
+        <small class="mb-1 text-muted" style="color:tomato !important;">{{post.created_at | timesince}} ago <--
+            {{post.author}}</small>
+            <!-- created_at er por | timesince use krle kto hour,kto minutes age create kra hoise oita show krbe-->
+            <p class="card-text m-auto">{{post.short_desc | truncatewords:25}}</p>
+            <!--it will keep first 30 words.. truncatechars use krle otogula character nito-->
+      </div>
+    </div> <br>
   </div>
+  {% endif %}
+  {% endfor %}
+</div>
 
-  <br>
+<br>
 
-  <h1 class="text-uppercase text-info" style="letter-spacing: 2px;">Recent Articles:</h1>
-  <main role="main" class="container p-0">
-    <div class="row">
-      <div class="col-md-8 blog-main">
+<h1 class="text-uppercase text-info" style="letter-spacing: 2px;">Recent Articles:</h1>
+<main role="main" class="container p-0">
+  <div class="row">
+    <div class="col-md-8 blog-main">
       {% for pst in posts %}
-      <div class="card border-0" >
+      <div class="card border-0">
         <div class="card-body">
           <h3><a href="{% url 'blogs' pst.slug %}" class="text-dark">{{pst.title}}</a></h3>
-          <small class="mb-1 text-muted" style="color:tomato !important;">{{pst.created_at | timesince}} ago <-- {{pst.author}}</small> <!-- created_at er por | timesince use krle kto hour,kto minutes age create kra hoise oita show krbe-->
-          <p class="card-text">{{pst.short_desc | truncatewords:25}}</p>
+          <small class="mb-1 text-muted" style="color:tomato !important;">{{pst.created_at | timesince}} ago <--
+              {% csrf_token %}
+              {{pst.author}}</small>
+              <!-- created_at er por | timesince use krle kto hour,kto minutes age create kra hoise oita show krbe-->
+              <p class="card-text">{{pst.short_desc | truncatewords:25}}</p>
         </div>
-      </div>  <br>
+      </div> <br>
       {% endfor %}
-      
-      <div class="p-2">
-        <h4 class="font-italic" style="color: brown !important;">For Entertainment:--</h4>
-        <div class="p-2 bg-secondary rounded"> 
-            <table style="border: 0;" cellspacing="10" cellpadding="0">
-              <tr>
-                {% for i in videos %}
-                <td class="p-1">
-                    <header style="color:maroon !important;"><b>{{i.title}}</b></header>
-                    <video width="100%" height="auto" muted loop controls style="margin-bottom: 20px;" >
-                      <source src="{{i.video_file.url}}" type="video/mp4"> <!--jehetu src tai sese .url dite hbe-->
-                        Your Browser Doesn't Support The Video Tag
-                    </video>
-                </td>
-                {% endfor %}
-            </table>
-    </div>  
-      </div>
 
-      </div>
-      
-      <br>
-
-      {% for i in about %}
-      <aside class="col-md-4 blog-sidebar">
-        <div class="p-3 mb-3 bg-light rounded">
-          <h4 class="font-italic" style="color: brown !important;">About</h4>
-          <p class="mb-0 text-dark">Arin Ahmed,<em>a dedicated Computer Science and Technology (CST) student</em> {{i.about}}</p>
-        </div>
-        {% endfor %}
-
-        {% if social_links %}
-        <div class="p-3">
-          <h4 class="font-italic">Follow Us</h4>
-          <ol class="list-unstyled">
-            {% for lnk in social_links %}
-            <li><a href="{{lnk.link}}" target="_blank">{{lnk.platform}}</a></li>
+      <div class="p-1">
+        <div class="p-1 bg-secondary rounded">
+          <h4 class="font-italic bg-dark text-info rounded" style='opacity:0.869'><b>For Entertainment</b> (<i>Groove to the vibes and let the melodies spark your soul..!<b>🎶</b></i>):-- </h4>
+          <table style="border: 0;" cellspacing="10" cellpadding="0">
+            {% for i in videos %}
+            <tr>
+              <td class="p-2">
+                <div class="video-container bg-dark  border border-info border-3 rounded p-2 m-auto">
+                  <header style="color:bisque !important;"><b>{{i.title}}</b> <p class='text-info'>Uploaded: {{i.uploaded_at|date:'M d, Y'}}</p></header>
+                  <video class='bg-danger' width="100%" height="auto" controls style="margin-bottom: 30px;">
+                    <source src="{{i.video_file.url}}" type="video/mp4"> <!--jehetu src tai sese .url dite hbe-->
+                    Your Browser Doesn't Support The Video Tag
+                  </video>
+                  <!-- Reaction buttons -->
+                  <div class="reaction-buttons" data-video-id="{{ i.id }}">
+                    {% if user.is_authenticated %}
+                    <button class="react-btn btn btn-info love-btn" data-reaction="love">
+                      ❤️ <span class="love-count text-black">{{ i.love_count }}</span>
+                    </button>
+                    <button class="react-btn btn btn-danger  dislike-btn" data-reaction="dislike">
+                      👎 <span class="dislike-count text-black">{{ i.dislike_count }}</span>
+                    </button>
+                    {% else %}
+                    <span class="reaction-display">
+                      ❤️ {{ i.love_count }} 👎 {{ i.dislike_count }}
+                    </span>
+                    <p><a href="{% url 'login' %}" id="rct"><b>Login to react</b></a></p>
+                    {% endif %}
+                  </div>
+                </div>
+              </td>
+            </tr>
             {% endfor %}
-          </ol>
+          </table>
         </div>
-        {% endif %}
-      </aside>
-    </div>
+      </div>
+    </div> <br>
 
-  </main> 
+
+    {% for i in about %}
+    <aside class="col-md-4 blog-sidebar">
+      <div class="p-3 mb-3 bg-light rounded">
+        <h4 class="font-italic" style="color: brown !important;">About</h4>
+        <p class="mb-0 text-dark">Arin Ahmed,<em>a dedicated Computer Science and Technology (CST) student</em>
+          {{i.about}}</p>
+      </div>
+      {% endfor %}
+
+      {% if social_links %}
+      <div class="p-3">
+        <h4 class="font-italic">Follow Us</h4>
+        <ol class="list-unstyled">
+          {% for lnk in social_links %}
+          <li><a href="{{lnk.link}}" target="_blank">{{lnk.platform}}</a></li>
+          {% endfor %}
+        </ol>
+      </div>
+      {% endif %}
+    </aside>
+  </div>
+
+</main>
+
+<style>
+  #rct{
+    color:palegreen !important;
+    opacity: 0.8989;
+  }
+  #rct:hover{
+    color:brown !important;
+    opacity:1.0;
+  }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const videos = document.querySelectorAll('video');
+
+    videos.forEach(video => {
+      video.addEventListener('play', function () {
+        videos.forEach(v => {
+          if (v !== video) {
+            v.pause();
+          }
+        });
+      });
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const reactButtons = document.querySelectorAll('.react-btn');
+
+    reactButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const videoId = this.closest('.reaction-buttons').dataset.videoId;
+            const reaction = this.dataset.reaction;
+
+            fetch(`/react/${videoId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: `reaction=${reaction}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector(`[data-video-id="${videoId}"] .love-count`).textContent = data.love_count;
+                document.querySelector(`[data-video-id="${videoId}"] .dislike-count`).textContent = data.dislike_count;
+            });
+        });
+    });
+});
+</script>
 
 {% endblock %}

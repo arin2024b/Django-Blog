@@ -75,6 +75,8 @@ class Video(models.Model):
     
     def __str__(self):
         return self.title
+
+
     
 class Image(models.Model):
     title = models.CharField(max_length=50)
@@ -83,3 +85,20 @@ class Image(models.Model):
     
     def __str__(self):
         return self.title
+
+
+class React(models.Model):
+    REACTION_CHOICES = [
+        ('love', 'Love'),
+        ('dislike', 'Dislike'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='reacts')
+    reaction = models.CharField(max_length=10, choices=REACTION_CHOICES)
+
+    class Meta:
+        unique_together = ('user', 'video')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.reaction} - {self.video.title}"
+    
