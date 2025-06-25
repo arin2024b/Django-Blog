@@ -54,4 +54,7 @@ urlpatterns = [
     path('comment/<int:video_id>/', views.add_comment, name='add_comment'),
     path('comments/<int:video_id>/', views.get_comments, name='get_comments'),
     
+    # For Views
+    path('view/<int:video_id>/', views.increment_view, name='increment_view'),
+    
 ] +static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

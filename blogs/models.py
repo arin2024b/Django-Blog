@@ -71,10 +71,11 @@ class Comment(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=20)
     video_file = models.FileField(upload_to='videos/')
+    views = models.PositiveIntegerField(default=0)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.title
+        return f"{self.title} - views: {self.views}"
 
 
     

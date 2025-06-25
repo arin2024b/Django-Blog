@@ -184,7 +184,7 @@
     </style>
 
 </head>
-<body>
+<body data-user-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
     <div class="container">
     <!-- Header part -->
       <header class="blog-header py-3">

@@ -53,7 +53,6 @@
         <div class="card-body">
           <h3><a href="{% url 'blogs' pst.slug %}" class="text-dark">{{pst.title}}</a></h3>
           <small class="mb-1 text-muted" style="color:tomato !important;">{{pst.created_at | timesince}} ago <--
-              {% csrf_token %}
               {{pst.author}}</small>
               <!-- created_at er por | timesince use krle kto hour,kto minutes age create kra hoise oita show krbe-->
               <p class="card-text">{{pst.short_desc | truncatewords:25}}</p>
@@ -63,55 +62,71 @@
 
       <div class="p-1">
         <div class="p-1 bg-secondary rounded">
-          <h4 class="font-italic bg-dark text-info rounded" style='opacity:0.869'><b>For Entertainment</b> (<i>Groove to the vibes and let the melodies spark your soul..!<b>🎶</b></i>):-- </h4>
+          <h4 class="font-italic bg-dark text-info rounded" style='opacity:0.869'><b>For Entertainment</b> (<i>Groove to
+              the vibes and let the melodies spark your soul..!<b>🎶</b></i>):-- </h4>
           <table style="border: 0;" cellspacing="10" cellpadding="0">
             {% for i in videos %}
             <tr>
               <td class="p-2">
                 <div class="video-container bg-dark  border border-info border-3 rounded p-2 m-auto">
-                  <header style="color:bisque !important;"><b>{{i.title}}</b> <p class='text-info'>Uploaded: {{i.uploaded_at|date:'M d, Y'}}</p></header>
-                  <video class='bg-secondary rounded' width="100%" height="auto" controls style="margin-bottom: 30px;">
+                  <header style="color:bisque !important;"><b>{{i.title}}</b>
+                    <p class='text-info'>Uploaded: {{i.uploaded_at|date:'M d, Y'}}</p>
+                  </header>
+                  <video class='bg-secondary rounded' width="100%" height="auto" controls style="margin-bottom: 10px;"
+                    data-video-id="{{ i.id }}">
                     <source src="{{i.video_file.url}}" type="video/mp4"> <!--jehetu src tai sese .url dite hbe-->
                     Your Browser Doesn't Support The Video Tag
                   </video>
+
+                  <!-- View Count Display -->
+                  <div class="view-count-section mb-2">
+                    <span class="badge bg-black border border-info border-2 text-white">👁️ <span class="view-count text-danger" id="view-count-{{ i.id }}">
+                      {{ i.views }}</span> views</span>
+                  </div>
+
                   <!-- Reaction and Comment Section -->
                   <div class="interaction-section" data-video-id="{{ i.id }}">
                     <!-- Reaction buttons -->
                     <div class="reaction-buttons d-flex align-items-center mb-2">
                       {% if user.is_authenticated %}
-                      <button class="react-btn btn btn-info btn-sm me-2 love-btn" data-reaction="love">
-                        ❤️ <span class="love-count text-black">{{ i.love_count }}</span>
+                      <button class="react-btn btn btn-info btn-sm me-2 love-btn border border-warning border-1" data-reaction="love">
+                        ❤️ <span class="love-count text-info">{{ i.love_count }}</span>
                       </button>
-                      <button class="react-btn btn btn-danger btn-sm me-3 dislike-btn" data-reaction="dislike">
-                        🥴 <span class="dislike-count text-black">{{ i.dislike_count }}</span>
+                      <button class="react-btn btn btn-danger btn-sm me-3 dislike-btn border border-warning border-1" data-reaction="dislike">
+                        🥴 <span class="dislike-count text-info">{{ i.dislike_count }}</span>
                       </button>
-                      <button class="comment-toggle-btn btn btn-secondary btn-sm me-2" data-video-id="{{ i.id }}">
+                      <button class="comment-toggle-btn btn btn-secondary btn-sm me-2 border border-danger border-1" data-video-id="{{ i.id }}">
                         💬 <span class="comment-count">0</span> Comments
                       </button>
                       {% else %}
                       <span class="reaction-display me-3">
                         ❤️ {{ i.love_count }} 🥴 {{ i.dislike_count }}
                       </span>
-                      <button class="comment-toggle-btn btn btn-secondary btn-sm me-2 text-warning" data-video-id="{{ i.id }}">
+                      <button class="comment-toggle-btn btn btn-secondary btn-sm me-2 text-warning"
+                        data-video-id="{{ i.id }}">
                         💬 <span class="comment-count">0</span> Comments
                       </button>
-                      <a href="{% url 'login' %}" class='btn btn-info btn-sm text-black border border-warning border-2'><b>Login to react</b></a>
+                      <a href="{% url 'login' %}"
+                        class='btn btn-info btn-sm text-black border border-warning border-2'><b>Login to react & cmnt</b></a>
                       {% endif %}
                     </div>
-                    
+
                     <!-- Comment Input (only for authenticated users) -->
                     {% if user.is_authenticated %}
                     <div class="comment-input-section mb-2" style="display: none;" id="comment-input-{{ i.id }}">
                       <div class="input-group">
-                        <input type="text" class="form-control comment-input bg-dark text-warning" placeholder="Write a comment..." data-video-id="{{ i.id }}">
-                        <button class="btn btn-info text-black submit-comment-btn" data-video-id="{{ i.id }}">Post</button>
+                        <input type="text" class="form-control comment-input bg-dark text-warning"
+                          placeholder="Write a comment..." data-video-id="{{ i.id }}">
+                        <button class="btn btn-info text-black submit-comment-btn"
+                          data-video-id="{{ i.id }}">Post</button>
                       </div>
                     </div>
                     {% endif %}
-                    
+
                     <!-- Comments Display -->
                     <div class="comments-section" style="display: none;" id="comments-{{ i.id }}">
-                      <div class="comments-container bg-white text-info p-2 rounded" style="max-height: 200px; overflow-y: auto;">
+                      <div class="comments-container bg-white text-info p-2 rounded"
+                        style="max-height: 200px; overflow-y: auto;">
                         <div class="comments-list" id="comments-list-{{ i.id }}">
                           <!-- Comments will be loaded here -->
                         </div>
@@ -152,129 +167,163 @@
 
 </main>
 
-
+{% csrf_token %}
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+  // Add this to make user authentication status available to JS
+  const userAuthenticated = document.body.getAttribute('data-user-authenticated') === 'true';
+
+  document.addEventListener('DOMContentLoaded', function () {
     const videos = document.querySelectorAll('video');
 
     videos.forEach(video => {
+      let viewCounted = false; // Track if view has been counted for this video
+
       video.addEventListener('play', function () {
+        // Pause other videos
         videos.forEach(v => {
           if (v !== video) {
             v.pause();
           }
         });
+
+        // Increment view count (only once per page load and only for logged-in users)
+        
+        if (userAuthenticated) {
+          if (!viewCounted) {
+            const videoId = this.dataset.videoId;
+
+            fetch(`/view/${videoId}/`, {
+              method: 'POST',
+              headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'Content-Type': 'application/json'
+              }
+            })
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  const viewCountElement = document.getElementById(`view-count-${videoId}`);
+                  if (viewCountElement) {
+                    viewCountElement.textContent = data.views;
+                  }
+                }
+              })
+              .catch(error => console.error('Error:', error));
+
+            viewCounted = true;
+          }
+        } 
       });
     });
-  });
+  }); 
 
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     // Reaction functionality
     const reactButtons = document.querySelectorAll('.react-btn');
 
     reactButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const videoId = this.closest('.interaction-section').dataset.videoId;
-            const reaction = this.dataset.reaction;
+      button.addEventListener('click', function () {
+        const videoId = this.closest('.interaction-section').dataset.videoId;
+        const reaction = this.dataset.reaction;
 
-            fetch(`/react/${videoId}/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                },
-                body: `reaction=${reaction}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.querySelector(`[data-video-id="${videoId}"] .love-count`).textContent = data.love_count;
-                document.querySelector(`[data-video-id="${videoId}"] .dislike-count`).textContent = data.dislike_count;
-            });
-        });
+        fetch(`/react/${videoId}/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+          },
+          body: `reaction=${reaction}`
+        })
+          .then(response => response.json())
+          .then(data => {
+            document.querySelector(`[data-video-id="${videoId}"] .love-count`).textContent = data.love_count;
+            document.querySelector(`[data-video-id="${videoId}"] .dislike-count`).textContent = data.dislike_count;
+          });
+      });
     });
 
     // Comment toggle functionality
     const commentToggleBtns = document.querySelectorAll('.comment-toggle-btn');
-    
+
     commentToggleBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const videoId = this.dataset.videoId;
-            const commentsSection = document.getElementById(`comments-${videoId}`);
-            const commentInputSection = document.getElementById(`comment-input-${videoId}`);
-            
-            if (commentsSection.style.display === 'none') {
-                // Show comments and load them
-                commentsSection.style.display = 'block';
-                if (commentInputSection) {
-                    commentInputSection.style.display = 'block';
-                }
-                loadComments(videoId);
-            } else {
-                // Hide comments
-                commentsSection.style.display = 'none';
-                if (commentInputSection) {
-                    commentInputSection.style.display = 'none';
-                }
-            }
-        });
+      btn.addEventListener('click', function () {
+        const videoId = this.dataset.videoId;
+        const commentsSection = document.getElementById(`comments-${videoId}`);
+        const commentInputSection = document.getElementById(`comment-input-${videoId}`);
+
+        if (commentsSection.style.display === 'none') {
+          // Show comments and load them
+          commentsSection.style.display = 'block';
+          if (commentInputSection) {
+            commentInputSection.style.display = 'block';
+          }
+          loadComments(videoId);
+        } else {
+          // Hide comments
+          commentsSection.style.display = 'none';
+          if (commentInputSection) {
+            commentInputSection.style.display = 'none';
+          }
+        }
+      });
     });
 
     // Submit comment functionality
     const submitCommentBtns = document.querySelectorAll('.submit-comment-btn');
-    
+
     submitCommentBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const videoId = this.dataset.videoId;
-            const commentInput = document.querySelector(`input[data-video-id="${videoId}"]`);
-            const commentText = commentInput.value.trim();
-            
-            if (commentText) {
-                fetch(`/comment/${videoId}/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                    },
-                    body: `comment=${encodeURIComponent(commentText)}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        commentInput.value = '';
-                        loadComments(videoId);
-                    }
-                });
-            }
-        });
+      btn.addEventListener('click', function () {
+        const videoId = this.dataset.videoId;
+        const commentInput = document.querySelector(`input[data-video-id="${videoId}"]`);
+        const commentText = commentInput.value.trim();
+
+        if (commentText) {
+          fetch(`/comment/${videoId}/`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: `comment=${encodeURIComponent(commentText)}`
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                commentInput.value = '';
+                loadComments(videoId);
+              }
+            });
+        }
+      });
     });
 
     // Handle Enter key in comment input
     const commentInputs = document.querySelectorAll('.comment-input');
-    
+
     commentInputs.forEach(input => {
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const videoId = this.dataset.videoId;
-                const submitBtn = document.querySelector(`button[data-video-id="${videoId}"].submit-comment-btn`);
-                submitBtn.click();
-            }
-        });
+      input.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          const videoId = this.dataset.videoId;
+          const submitBtn = document.querySelector(`button[data-video-id="${videoId}"].submit-comment-btn`);
+          submitBtn.click();
+        }
+      });
     });
 
     // Function to load comments
     function loadComments(videoId) {
-        fetch(`/comments/${videoId}/`)
+      fetch(`/comments/${videoId}/`)
         .then(response => response.json())
         .then(data => {
-            const commentsList = document.getElementById(`comments-list-${videoId}`);
-            const commentCount = document.querySelector(`[data-video-id="${videoId}"] .comment-count`);
-            
-            commentCount.textContent = data.count;
-            
-            if (data.comments.length === 0) {
-                commentsList.innerHTML = '<p class="text-muted text-center">No comments yet. Be the first to comment!</p>';
-            } else {
-                commentsList.innerHTML = data.comments.map(comment => `
+          const commentsList = document.getElementById(`comments-list-${videoId}`);
+          const commentCount = document.querySelector(`[data-video-id="${videoId}"] .comment-count`);
+
+          commentCount.textContent = data.count;
+
+          if (data.comments.length === 0) {
+            commentsList.innerHTML = '<p class="text-muted text-center">No comments yet. Be the first to comment!</p>';
+          } else {
+            commentsList.innerHTML = data.comments.map(comment => `
                     <div class="comment-item border-bottom pb-2 mb-2">
                         <div class="d-flex justify-content-between">
                             <strong class="text-primary">${comment.username}</strong>
@@ -283,20 +332,20 @@
                         <p class="mb-0">${comment.comment}</p>
                     </div>
                 `).join('');
-            }
+          }
         });
     }
 
     // Load initial comment counts
     commentToggleBtns.forEach(btn => {
-        const videoId = btn.dataset.videoId;
-        fetch(`/comments/${videoId}/`)
+      const videoId = btn.dataset.videoId;
+      fetch(`/comments/${videoId}/`)
         .then(response => response.json())
         .then(data => {
-            const commentCount = document.querySelector(`[data-video-id="${videoId}"] .comment-count`);
-            commentCount.textContent = data.count;
+          const commentCount = document.querySelector(`[data-video-id="${videoId}"] .comment-count`);
+          commentCount.textContent = data.count;
         });
     });
-});
+  });
 </script>
 {% endblock %}

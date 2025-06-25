@@ -7,6 +7,7 @@ from django.contrib import auth # user data gulake entered dara er sathe match k
 from Blog_main.forms import VideoForm,ImageForm
 from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 def home(request):
@@ -92,17 +93,38 @@ def get_comments(request, video_id):
     video = Video.objects.get(id=video_id)
     comments = VideoComment.objects.filter(video=video).order_by('-created_at')
     
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    bd_time = datetime.now(ZoneInfo('Asia/Dhaka'))
+    
     comments_data = [{
         'id': comment.id,
         'username': comment.user.username,
         'comment': comment.comment,
-        'created_at': comment.created_at.strftime('%b %d, %Y at %I:%M %p')
+        'created_at': bd_time.strftime('%b %d, %Y at %H:%M BDT')
+        # 'created_at':comment.created_at.strftime('%b %d, %Y at %I:%M %p')
     } for comment in comments]
     
     return JsonResponse({
         'comments': comments_data,
         'count': comments.count()
     })
+
+@login_required
+def increment_view(request, video_id):
+    if request.method == 'POST':
+        try:
+            video = Video.objects.get(id=video_id)
+            video.views += 1
+            video.save()
+            return JsonResponse({
+                'success': True,
+                'views': video.views
+            })
+        except Video.DoesNotExist:
+            return JsonResponse({'error': 'Video not found'})
+    
+    return JsonResponse({'error': 'Invalid request'})
 
 def register(rqst):
     if rqst.method == 'POST':
