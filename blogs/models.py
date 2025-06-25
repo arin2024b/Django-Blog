@@ -96,6 +96,8 @@ class React(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='reacts')
     reaction = models.CharField(max_length=10, choices=REACTION_CHOICES)
 
+    def __str__(self):
+        return f"{self.user.username} -- {self.video} -- {self.reaction}"
     class Meta:
         unique_together = ('user', 'video')
 
@@ -107,12 +109,10 @@ class VideoComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    def __str__(self):
-        return f'{self.user.username}: {self.comment[:50]}...'
     
     class Meta:
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.user.username} - {self.reaction} - {self.video.title}"
+        return f"{self.user.username} - {self.video.title} : {self.comment[:30]}..."
     

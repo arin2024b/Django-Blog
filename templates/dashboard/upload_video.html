@@ -15,8 +15,8 @@
     </form> <br>
     <div class="p-2 bg-secondary rounded">
             <table style="border: 0;" cellspacing="10" cellpadding="0">
-              <tr>
-                    {% for i in videos %}
+                {% for i in videos %}
+                <tr>
                     <td class="p-1">
                         <header style="color:maroon !important;"><b>{{i.title}}</b><p class="text-muted">Uploaded: {{ i.uploaded_at|date:"M d, Y" }}</p></header>
                         <video width="60%" height="auto" muted loop controls style="margin-bottom: 20px;" >
@@ -24,8 +24,8 @@
                             Your Browser Doesn't Support The Video Tag
                         </video>
                     </td>
-                    {% endfor %}
                 </tr>
+                {% endfor %}
             </table>
         
     </div>
