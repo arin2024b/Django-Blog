@@ -1,50 +1,110 @@
 {% extends "base.html" %}
 
 {% block navigation_links %}
-    <a class="btn btn-sm btn-warning" id="login" href="{% url 'login' %}">Try Again</a> &nbsp;
-    <a class="btn btn-sm btn-outline-secondary" id="rgstr" href="{% url 'register' %}">Register</a>
+    <a class="btn btn-sm bg-orange-600 hover:bg-orange-700 text-white font-semibold transition-all duration-300 transform hover:scale-105" id="login" href="{% url 'login' %}">Try Again</a>
+    <a class="btn btn-sm border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-semibold transition-all duration-300 transform hover:scale-105" id="rgstr" href="{% url 'register' %}">Register</a>
 {% endblock %}
-
 
 {% block content %}
 {% load crispy_forms_tags %}
 
 <style>
-    body{
-        background-color: #240205 !important;
-        #headLine{
-            color: orange !important;
-            opacity: 0.7887 !important;
+    body {
+        background: linear-gradient(135deg, #1a001f, #4b0000);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .search-box{
+        color: orange !important;
+    }
+    .login-container {
+        animation: slideIn 0.8s ease-out;
+    }
+    .form-control {
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+    .form-control:focus {
+        border-color: #f97316;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+        transform: scale(1.02);
+    }
+    .btn-login {
+        background: linear-gradient(to right, #f97316, #ea580c);
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-login::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: 0.5s;
+    }
+    .btn-login:hover::before {
+        left: 100%;
+    }
+    @keyframes slideIn {
+        from {
+            transform: translateY(50px);
+            opacity: 0;
         }
-        h3{
-            opacity: 0.8778 !important;
+        to {
+            transform: translateY(0);
+            opacity: 1;
         }
-        button:hover{
-            color: black !important;
-            background-color: darkorange !important;
-            opacity: 0.897 !important;
-        }
-        #login{
-            background-color: brown !important;
-            color: black !important;
-        }
-        #login:hover{
-            color: bisque !important;
-            background-color: orange !important;
-        }
-        input:hover{
-            color:black !important;
-            background-color:darkorange !important;
-            opacity: 0.898 !important;
+    }
+    @media (max-width: 640px) {
+        .login-container {
+            width: 90%;
         }
     }
 </style>
 
-<h3 class="text-center" style="color:darkorange !important;"><b><i>LogIn With Your Valid Informations:</i></b></h3> <br>
-<form action="{% url 'login' %}" method="POST" style="width: 500px; margin:auto">
-    {% csrf_token %} <!--post method use krle csrf_token use krte hbe-->
+<div class="login-container max-w-md mx-auto p-6 bg-gray-900 bg-opacity-80 rounded-xl shadow-2xl backdrop-blur-sm">
+    <h3 class="text-center text-2xl md:text-3xl font-bold text-orange-500 mb-6 animate-pulse">
+        <i>Log In to Your Account</i>
+    </h3>
+    <form action="{% url 'login' %}" method="POST" class="space-y-4">
+        {% csrf_token %}
+        {{ frm|crispy }} <br>
+        <button type="submit" class="btn btn-login w-full py-3 px-4 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
+            Login
+        </button><br>
+    </form>
+</div>
 
-    {{frm | crispy}} <br> <br>
-    <button type="submit" class="btn btn-warning">Login</button> <br><br>
-</form>
+<script>
+    // Add smooth scroll behavior
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            const button = form.querySelector('button[type="submit"]');
+            button.classList.add('animate-pulse');
+            setTimeout(() => button.classList.remove('animate-pulse'), 1000);
+        });
+
+        // Input focus animation
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.classList.add('scale-105');
+            });
+            input.addEventListener('blur', () => {
+                input.classList.remove('scale-105');
+            });
+        });
+    });
+</script>
 {% endblock %}

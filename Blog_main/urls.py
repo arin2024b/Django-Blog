@@ -53,6 +53,7 @@ urlpatterns = [
     # For Comments
     path('comment/<int:video_id>/', views.add_comment, name='add_comment'),
     path('comments/<int:video_id>/', views.get_comments, name='get_comments'),
+    path('delete-comment/<int:comment_id>/', views.delete_comment, name='delete_comment'),
     
     # For Views
     path('view/<int:video_id>/', views.increment_view, name='increment_view'),

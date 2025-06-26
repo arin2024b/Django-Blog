@@ -93,22 +93,41 @@ def get_comments(request, video_id):
     video = Video.objects.get(id=video_id)
     comments = VideoComment.objects.filter(video=video).order_by('-created_at')
     
-    from datetime import datetime
-    from zoneinfo import ZoneInfo
-    bd_time = datetime.now(ZoneInfo('Asia/Dhaka'))
+    # from datetime import datetime
+    # from zoneinfo import ZoneInfo
+    # bd_time = datetime.now(ZoneInfo('Asia/Dhaka'))
+    from django.utils.timezone import localtime
     
     comments_data = [{
         'id': comment.id,
         'username': comment.user.username,
+        'user_id': comment.user.id,
         'comment': comment.comment,
-        'created_at': bd_time.strftime('%b %d, %Y at %H:%M BDT')
+        # 'created_at': bd_time.strftime('%b %d, %Y at %H:%M BDT')
         # 'created_at':comment.created_at.strftime('%b %d, %Y at %I:%M %p')
+        'created_at': localtime(comment.created_at).strftime('%b %d, %Y at %I:%M %p')
     } for comment in comments]
     
     return JsonResponse({
         'comments': comments_data,
         'count': comments.count()
     })
+
+@login_required
+def delete_comment(request, comment_id):
+    if request.method == 'POST':
+        try:
+            comment = VideoComment.objects.get(id=comment_id)
+            # Check if the user is the owner of the comment
+            if comment.user == request.user:
+                comment.delete()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'error': 'You can only delete your own comments'})
+        except VideoComment.DoesNotExist:
+            return JsonResponse({'error': 'Comment not found'})
+    
+    return JsonResponse({'error': 'Invalid request'})
 
 @login_required
 def increment_view(request, video_id):
